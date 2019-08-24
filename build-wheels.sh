@@ -2,7 +2,7 @@
 set -e -x
 
 # Install a system package required by our library
-yum install -y libasound2-dev libusb1-devel portaudio portaudio-devel
+yum install -y libasound2-dev libusb1-devel portaudio portaudio-devel libxi-devel alsa-lib-devel
 git --git-dir=/ptb/.git submodule update --init --recursive
 
 # Compile wheels
