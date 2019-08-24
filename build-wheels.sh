@@ -5,7 +5,7 @@ set -e -x
 yum install -y libusb1-devel portaudio-devel libXi-devel alsa-lib-devel
 git --git-dir=/ptb/.git submodule update --init --recursive
 
-pyvs=(cp27-cp27m cp36-cp36m cp37-cp37m)
+pyvs=(cp36-cp36m cp37-cp37m)
 # Compile wheels
 for PYBIN in "${pyvs[@]}"; do
     "/opt/python/${PYBIN}/bin/pip" install numpy
