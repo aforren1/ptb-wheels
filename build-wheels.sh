@@ -9,7 +9,7 @@ pyvs=(cp27-cp27m cp36-cp36m cp37-cp37m)
 # Compile wheels
 for PYBIN in "${pyvs[@]}"; do
     "/opt/python/${PYBIN}/bin/pip" install numpy
-    "${PYBIN}/pip" wheel /ptb/psychtoolbox-3/ -w wheelhouse/
+    "/opt/python/${PYBIN}/bin/pip" wheel /ptb/psychtoolbox-3/ -w wheelhouse/
 done
 
 # Bundle external shared libraries into the wheels
