@@ -2,7 +2,7 @@
 set -e -x
 
 # Install a system package required by our library
-yum install -y libasound2-dev libusb1-devel portaudio portaudio-devel libXi-devel alsa-lib-devel
+yum install -y libusb1-devel portaudio-devel libXi-devel alsa-lib-devel
 git --git-dir=/ptb/.git submodule update --init --recursive
 
 pyvs=(cp27-cp27m cp36-cp36m cp37-cp37m)
