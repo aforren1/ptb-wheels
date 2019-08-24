@@ -2,7 +2,7 @@
 set -e -x
 
 # Install a system package required by our library
-#yum install -y atlas-devel
+yun install -y libasound2-dev libusb1-devel
 git --git-dir=/ptb/.git submodule update --init --recursive
 
 # Compile wheels
