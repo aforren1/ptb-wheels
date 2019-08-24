@@ -7,6 +7,7 @@ git --git-dir=/ptb/.git submodule update --init --recursive
 
 # Compile wheels
 for PYBIN in /opt/python/*/bin; do
+    "${PYBIN}/pip" install numpy
     "${PYBIN}/pip" wheel /ptb/psychtoolbox-3/ -w wheelhouse/
 done
 
