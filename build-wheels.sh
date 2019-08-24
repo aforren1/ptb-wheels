@@ -5,9 +5,10 @@ set -e -x
 yum install -y libasound2-dev libusb1-devel portaudio portaudio-devel libXi-devel alsa-lib-devel
 git --git-dir=/ptb/.git submodule update --init --recursive
 
+pyvs=(cp27-cp27m cp36-cp36m cp37-cp37m)
 # Compile wheels
-for PYBIN in /opt/python/*/bin; do
-    "${PYBIN}/pip" install numpy
+for PYBIN in "${pyvs[@]}"; do
+    "/opt/python/${PYBIN}/bin/pip" install numpy
     "${PYBIN}/pip" wheel /ptb/psychtoolbox-3/ -w wheelhouse/
 done
 
@@ -17,7 +18,7 @@ for whl in wheelhouse/*.whl; do
 done
 
 # Install packages and test
-for PYBIN in /opt/python/*/bin/; do
-    "${PYBIN}/pip" install psychtoolbox --no-index -f /ptb/wheelhouse
+for PYBIN in "${pyvs[@]}"; do
+    "/opt/python/${PYBIN}/bin/pip" install psychtoolbox --no-index -f /ptb/wheelhouse
     #(cd "$HOME"; "${PYBIN}/nosetests" pymanylinuxdemo)
 done
