@@ -10,6 +10,9 @@ pyvs=(cp36-cp36m)
 for PYBIN in "${pyvs[@]}"; do
     "/opt/python/${PYBIN}/bin/pip" install numpy
     "/opt/python/${PYBIN}/bin/pip" wheel /ptb/psychtoolbox-3/ -w wheelhouse/ -v
+    # try install before auditwheel
+    "/opt/python/${PYBIN}/bin/pip" install psychtoolbox --no-index -f /ptb/wheelhouse
+    "/opt/python/${PYBIN}/bin/python" -c "import psychtoolbox as ptb; print(ptb.GetSecs())"
 done
 
 # Bundle external shared libraries into the wheels
@@ -19,7 +22,7 @@ done
 
 # Install packages and test
 for PYBIN in "${pyvs[@]}"; do
-    "/opt/python/${PYBIN}/bin/pip" install psychtoolbox --no-index -f /ptb/wheelhouse
+    "/opt/python/${PYBIN}/bin/pip" install psychtoolbox --no-index -f /ptb/wheelhouse --upgrade
     ls "/opt/python/cp36-cp36m/lib/python3.6/site-packages/psychtoolbox/"
     ldd "/opt/python/cp36-cp36m/lib/python3.6/site-packages/psychtoolbox/PsychPortAudio.cpython-36m-x86_64-linux-gnu.so"
     readelf -Ws "/opt/python/cp36-cp36m/lib/python3.6/site-packages/psychtoolbox/PsychPortAudio.cpython-36m-x86_64-linux-gnu.so" | grep PaAlsa
