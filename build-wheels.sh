@@ -20,7 +20,7 @@ done
 # Install packages and test
 for PYBIN in "${pyvs[@]}"; do
     "/opt/python/${PYBIN}/bin/pip" install psychtoolbox --no-index -f /ptb/wheelhouse
-    "/opt/python/cp37-cp37m/lib/python3.7/site-packages/psychtoolbox/PsychPortAudio.cpython-37m-x86_64-linux-gnu.so"
+    ldd "/opt/python/cp37-cp37m/lib/python3.7/site-packages/psychtoolbox/PsychPortAudio.cpython-37m-x86_64-linux-gnu.so"
     "/opt/python/${PYBIN}/bin/python" -c "import psychtoolbox as ptb; print(ptb.GetSecs())"
     #(cd "$HOME"; "${PYBIN}/nosetests" pymanylinuxdemo)
 done
