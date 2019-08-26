@@ -22,6 +22,7 @@ for PYBIN in "${pyvs[@]}"; do
     "/opt/python/${PYBIN}/bin/pip" install psychtoolbox --no-index -f /ptb/wheelhouse
     ls "/opt/python/cp36-cp36m/lib/python3.6/site-packages/psychtoolbox/"
     ldd "/opt/python/cp36-cp36m/lib/python3.6/site-packages/psychtoolbox/PsychPortAudio.cpython-36m-x86_64-linux-gnu.so"
+    readelf -Ws "/opt/python/cp36-cp36m/lib/python3.6/site-packages/psychtoolbox/PsychPortAudio.cpython-36m-x86_64-linux-gnu.so" | grep PaAlsa
     "/opt/python/${PYBIN}/bin/python" -c "import psychtoolbox as ptb; print(ptb.GetSecs())"
     #(cd "$HOME"; "${PYBIN}/nosetests" pymanylinuxdemo)
 done
