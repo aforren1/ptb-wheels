@@ -17,7 +17,7 @@ git --git-dir=/ptb/.git submodule update --init --recursive
 pyvs=(cp36-cp36m cp37-cp37m)
 # Compile wheels
 for PYBIN in "${pyvs[@]}"; do
-    "/opt/python/${PYBIN}/bin/pip" wheel /ptb/psychtoolbox-3/ -w wheelhouse/ -v
+    "/opt/python/${PYBIN}/bin/pip" wheel /ptb/psychtoolbox-3/ -w wheelhouse/
 done
 
 # Bundle external shared libraries into the wheels
