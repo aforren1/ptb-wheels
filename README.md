@@ -8,7 +8,8 @@ For a new release:
 2. Tag a new release & push:
 
 ```
-git commit -m <version>
+git add --all
+git commit -m <message>
 git tag -m <version> <version>
 git push --tags
 ```
