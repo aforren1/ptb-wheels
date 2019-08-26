@@ -10,9 +10,6 @@ pyvs=(cp36-cp36m)
 for PYBIN in "${pyvs[@]}"; do
     "/opt/python/${PYBIN}/bin/pip" install numpy
     "/opt/python/${PYBIN}/bin/pip" wheel /ptb/psychtoolbox-3/ -w wheelhouse/ -v
-    # try install before auditwheel
-    "/opt/python/${PYBIN}/bin/pip" install psychtoolbox --no-index -f wheelhouse/
-    "/opt/python/${PYBIN}/bin/python" -c "import psychtoolbox as ptb; print(ptb.GetSecs())"
 done
 
 # Bundle external shared libraries into the wheels
