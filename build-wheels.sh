@@ -9,7 +9,7 @@ git clone https://git.assembla.com/portaudio.git
 cd portaudio
 git checkout pa_stable_v190600_20161030
 ./configure && make
-sudo make install
+make install
 cd ..
 
 git --git-dir=/ptb/.git submodule update --init --recursive
