@@ -9,7 +9,7 @@ pyvs=(cp37-cp37m)
 # Compile wheels
 for PYBIN in "${pyvs[@]}"; do
     "/opt/python/${PYBIN}/bin/pip" install numpy
-    "/opt/python/${PYBIN}/bin/pip" wheel /ptb/psychtoolbox-3/ -w wheelhouse/
+    "/opt/python/${PYBIN}/bin/pip" wheel /ptb/psychtoolbox-3/ -w wheelhouse/ -v
 done
 
 # Bundle external shared libraries into the wheels
@@ -20,6 +20,7 @@ done
 # Install packages and test
 for PYBIN in "${pyvs[@]}"; do
     "/opt/python/${PYBIN}/bin/pip" install psychtoolbox --no-index -f /ptb/wheelhouse
+    "/opt/python/cp37-cp37m/lib/python3.7/site-packages/psychtoolbox/PsychPortAudio.cpython-37m-x86_64-linux-gnu.so"
     "/opt/python/${PYBIN}/bin/python" -c "import psychtoolbox as ptb; print(ptb.GetSecs())"
     #(cd "$HOME"; "${PYBIN}/nosetests" pymanylinuxdemo)
 done
