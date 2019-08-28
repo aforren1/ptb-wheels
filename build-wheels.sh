@@ -29,4 +29,6 @@ done
 for PYBIN in "${pyvs[@]}"; do
     "/opt/python/${PYBIN}/bin/pip" install psychtoolbox --no-index -f /ptb/wheelhouse
     "/opt/python/${PYBIN}/bin/python" -c "import psychtoolbox as ptb; print(ptb.GetSecs())"
+    "/opt/python/${PYBIN}/bin/python" -m psychtoolbox.demos.hidtest_pythonic
+    "/opt/python/${PYBIN}/bin/python" -m psychtoolbox.demos.ppatest_pythonic
 done

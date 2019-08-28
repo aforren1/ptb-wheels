@@ -4,10 +4,8 @@ And https://stackoverflow.com/questions/12343452/how-to-publish-artifacts-in-tra
 
 For a new release:
 
-1. Update submodule via `git submodule update --recursive --remote`
-2. Tag a new release & push:
-
 ```
+git submodule update --recursive --remote
 git add --all
 git commit -m <message>
 git tag -m <version> <version>
