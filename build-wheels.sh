@@ -2,7 +2,7 @@
 set -e -x
 
 # Install system packages required by our library
-yum install -y libusb1-devel libXi-devel alsa-lib-devel
+yum install -y libusb1-devel libXi-devel alsa-lib-devel jack-audio-connection-kit
 
 # build portaudio manually (couldn't find PaAlsa_SetNumPeriods symbol in the system package)
 git clone https://git.assembla.com/portaudio.git
@@ -29,6 +29,6 @@ done
 for PYBIN in "${pyvs[@]}"; do
     "/opt/python/${PYBIN}/bin/pip" install psychtoolbox --no-index -f /ptb/wheelhouse
     "/opt/python/${PYBIN}/bin/python" -c "import psychtoolbox as ptb; print(ptb.GetSecs())"
-    "/opt/python/${PYBIN}/bin/python" -m psychtoolbox.demos.hidtest_pythonic
+    #"/opt/python/${PYBIN}/bin/python" -m psychtoolbox.demos.hidtest_pythonic
     "/opt/python/${PYBIN}/bin/python" -m psychtoolbox.demos.ppatest_pythonic
 done
