@@ -61,8 +61,7 @@ test_script:
   - 'python -c "import psychtoolbox as ptb; print(ptb.GetSecs())"'
 
 artifacts:
-  # bdist_wheel puts your built wheel in the dist directory
-  - path: wheels\*
+  - path: wheels
 
 # on_success:
 # TODO
