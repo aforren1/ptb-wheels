@@ -24,7 +24,7 @@ init:
           throw "There are newer queued builds for this pull request, failing early." }
 
 cache:
-  # Cache downloaded pip packages and built wheels.
+  # Cache downloaded pip packages.
   - '%LOCALAPPDATA%\pip\Cache\http'
 
 install:
@@ -55,8 +55,6 @@ install:
 build: off
 
 test_script:
-  # Run the tests appropriate for this entry in the test matrix. Skip tests
-  # if we're just updating the cache.
   - 'python -c "import psychtoolbox as ptb; print(ptb.GetSecs())"'
 
 artifacts:
