@@ -21,7 +21,7 @@ for PYBIN in "${pyvs[@]}"; do
 done
 
 # Bundle external shared libraries into the wheels
-for whl in wheelhouse/*.whl; do
+for whl in wheelhouse/psych*.whl; do
     auditwheel repair "$whl" --plat $PLAT -w /ptb/wheelhouse/
 done
 
