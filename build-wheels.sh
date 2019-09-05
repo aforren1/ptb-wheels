@@ -21,12 +21,13 @@ for PYBIN in "${pyvs[@]}"; do
 done
 
 # Bundle external shared libraries into the wheels
-for whl in wheelhouse/*.whl; do
+for whl in wheelhouse/psych*.whl; do
     auditwheel repair "$whl" --plat $PLAT -w /ptb/wheelhouse/
 done
 
 # Install packages and test
 for PYBIN in "${pyvs[@]}"; do
+    "/opt/python/${PYBIN}/bin/pip" install numpy
     "/opt/python/${PYBIN}/bin/pip" install psychtoolbox --no-index -f /ptb/wheelhouse
     "/opt/python/${PYBIN}/bin/python" -c "import psychtoolbox as ptb; print(ptb.GetSecs())"
 done
