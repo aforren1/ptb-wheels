@@ -61,7 +61,7 @@ artifacts:
   - path: psychtoolbox-3/wheels/psych*
 
 deploy:
-  description: 'Description'
+  description: 'Psychtoolbox Python wheels.'
   provider: GitHub
   auth_token:
     secure: KRnhI4rZvAFvrm5CvIJs7B8djoR6Y9/jJD+zOockN4XQH3w2bQZ0y0ERGA866K/J
