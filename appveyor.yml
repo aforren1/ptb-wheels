@@ -26,7 +26,6 @@ init:
 cache:
   # Cache downloaded pip packages and built wheels.
   - '%LOCALAPPDATA%\pip\Cache\http'
-  - '%LOCALAPPDATA%\pip\Cache\wheels'
 
 install:
   - C:\cygwin\bin\du -hs "%LOCALAPPDATA%\pip\Cache"
