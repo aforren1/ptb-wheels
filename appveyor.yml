@@ -45,7 +45,7 @@ install:
   - 'python -m pip install -U pip setuptools wheel'
 
   - "git submodule update --init --recursive"
-  - "cd psychtoolbox"
+  - "cd psychtoolbox-3"
 
   # build wheel
   - 'python -m pip wheel . -w wheels/'
