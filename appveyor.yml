@@ -1,5 +1,6 @@
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
+  APPVEYOR_IGNORE_COMMIT_FILTERING_ON_TAG: true
 
   matrix:
     - PYTHON: C:\Python37-x64
