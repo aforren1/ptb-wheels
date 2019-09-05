@@ -27,6 +27,7 @@ done
 
 # Install packages and test
 for PYBIN in "${pyvs[@]}"; do
+    "/opt/python/${PYBIN}/bin/pip" install numpy
     "/opt/python/${PYBIN}/bin/pip" install psychtoolbox --no-index -f /ptb/wheelhouse
     "/opt/python/${PYBIN}/bin/python" -c "import psychtoolbox as ptb; print(ptb.GetSecs())"
 done
