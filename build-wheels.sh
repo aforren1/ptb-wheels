@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e -x
 
-# Install system packages required by our library
+# Install system packages required by psychtoolbox
 yum install -y libusb1-devel libXi-devel alsa-lib-devel jack-audio-connection-kit-devel
 
 # build portaudio manually (couldn't find PaAlsa_SetNumPeriods symbol in the system package)
