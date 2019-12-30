@@ -14,7 +14,7 @@ cd ..
 
 git --git-dir=/ptb/.git submodule update --init --recursive
 
-pyvs=(cp36-cp36m cp37-cp37m)
+pyvs=(cp36-cp36m cp37-cp37m cp38-cp38m)
 # Compile wheels
 for PYBIN in "${pyvs[@]}"; do
     "/opt/python/${PYBIN}/bin/pip" wheel /ptb/psychtoolbox-3/ -w wheelhouse/

@@ -3,6 +3,10 @@ environment:
   APPVEYOR_IGNORE_COMMIT_FILTERING_ON_TAG: true
 
   matrix:
+    - PYTHON: C:\Python38-x64
+      PYTHON_VERSION: 3.8
+      PYTHON_ARCH: 64
+
     - PYTHON: C:\Python37-x64
       PYTHON_VERSION: 3.7
       PYTHON_ARCH: 64
