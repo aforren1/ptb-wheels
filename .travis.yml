@@ -35,7 +35,7 @@ install:
 
 script:
   # build the wheels, put them into './wheelhouse'
-  - git log -1 psychtoolbox-3 && python -m cibuildwheel psychtoolbox-3 --output-dir wheelhouse
+  - cd psychtoolbox-3 && python -m cibuildwheel --output-dir ../wheelhouse && cd ..
 
 deploy:
   provider: releases
