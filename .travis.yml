@@ -28,7 +28,7 @@ matrix:
 
 install:
   - if [ "${TRAVIS_OS_NAME:-}" == "linux" ]; then
-       bash prebuid_linux.sh
+       bash prebuid_linux.sh;
     fi
   - python -m pip install cibuildwheel==1.1.0
 
