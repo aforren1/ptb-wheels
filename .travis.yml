@@ -27,11 +27,12 @@ matrix:
         - export PATH="/c/Python38:/c/Python/Scripts:$PATH"
 
 install:
+  - ls
   - python -m pip install cibuildwheel==1.0.0
 
 script:
   # build the wheels, put them into './wheelhouse'
-  - python -m cibuildwheel ptb-wheels --output-dir wheelhouse
+  - python -m cibuildwheel --output-dir wheelhouse
 
 deploy:
   provider: releases
