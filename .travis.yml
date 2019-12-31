@@ -10,8 +10,8 @@ env:
       CIBW_BUILD: cp3?-*
       CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
       CIBW_TEST_COMMAND: "python -c \"import psychtoolbox as ptb; print(ptb.GetSecs())\""
-      CIBW_BEFORE_BUILD_LINUX: "bash prebuild_linux.sh && cd ptb-wheels"
-      CIBW_BEFORE_BUILD: "cd ptb-wheels"
+      CIBW_BEFORE_BUILD_LINUX: "bash prebuild_linux.sh"
+
 matrix:
   include:
     # perform a linux build
@@ -27,12 +27,11 @@ matrix:
         - export PATH="/c/Python38:/c/Python/Scripts:$PATH"
 
 install:
-  - ls
   - python -m pip install cibuildwheel==1.0.0
 
 script:
   # build the wheels, put them into './wheelhouse'
-  - python -m cibuildwheel --output-dir wheelhouse
+  - python -m cibuildwheel psychtoolbox-3 --output-dir wheelhouse
 
 deploy:
   provider: releases
