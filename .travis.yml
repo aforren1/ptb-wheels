@@ -10,7 +10,7 @@ env:
       - CIBW_BUILD=cp3?-*
       - CIBW_MANYLINUX_X86_64_IMAGE=manylinux2014
       - CIBW_BEFORE_BUILD="pip install numpy"
-      - CIBW_BEFORE_BUILD_LINUX="ls .. && bash ../prebuild_linux.sh && pip install numpy"
+      - CIBW_BEFORE_BUILD_LINUX="ls && bash ./prebuild_linux.sh && pip install numpy"
       - CIBW_TEST_COMMAND="python -c \"import psychtoolbox as ptb; print(ptb.GetSecs())\""
 
 matrix:
@@ -29,6 +29,9 @@ matrix:
 
 install:
   - python -m pip install cibuildwheel==1.1.0
+  - if [ "${TRAVIS_OS_NAME:-}" == "linux" ]; then
+    cp prebuild_linux.sh psychtoolbox-3/prebuild_linux.sh;
+    fi
 
 script:
   # build the wheels, put them into './wheelhouse'
