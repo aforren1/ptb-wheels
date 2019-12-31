@@ -6,11 +6,12 @@ language: python
 env:
   global:
       # only 64-bit
-      CIBW_SKIP: "cp34-* cp35-* *-win32 *-manylinux_i686"
-      CIBW_BUILD: cp3?-*
-      CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
-      CIBW_BEFORE_BUILD: pip install numpy
-      CIBW_TEST_COMMAND: "python -c \"import psychtoolbox as ptb; print(ptb.GetSecs())\""
+      - CIBW_SKIP="cp34-* cp35-* *-win32 *-manylinux_i686"
+      - CIBW_BUILD=cp3?-*
+      - CIBW_MANYLINUX_X86_64_IMAGE=manylinux2014
+      - CIBW_BEFORE_BUILD="pip install numpy"
+      - CIBW_BEFORE_BUILD_LINUX="bash prebuild_linux.sh && pip install numpy"
+      - CIBW_TEST_COMMAND="python -c \"import psychtoolbox as ptb; print(ptb.GetSecs())\""
 
 matrix:
   include:
@@ -27,9 +28,6 @@ matrix:
         - export PATH="/c/Python38:/c/Python/Scripts:$PATH"
 
 install:
-  - if [ "${TRAVIS_OS_NAME:-}" == "linux" ]; then
-       bash prebuild_linux.sh;
-    fi
   - python -m pip install cibuildwheel==1.1.0
 
 script:
