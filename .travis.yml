@@ -8,8 +8,8 @@ env:
       # only 64-bit
       - CIBW_SKIP="cp34-* cp35-* *-win32 *-manylinux_i686"
       - CIBW_BUILD=cp3?-*
-      - CIBW_MANYLINUX_X86_64_IMAGE=manylinux2014
-      - CIBW_BEFORE_BUILD="cat setup.py && pip install numpy"
+      - CIBW_MANYLINUX_X86_64_IMAGE=manylinux2010 # switch to 2014 eventually
+      - CIBW_BEFORE_BUILD="pip install numpy"
       - CIBW_BEFORE_BUILD_LINUX="bash ./prebuild_linux.sh && pip install numpy"
      # - CIBW_TEST_COMMAND="python -c \"import psychtoolbox as ptb; print(ptb.GetSecs())\""
 
