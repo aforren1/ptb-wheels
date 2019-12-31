@@ -1,30 +1,46 @@
 notifications:
   email: false
 
+language: python
+
+env:
+  global:
+      # only 64-bit
+      CIBW_SKIP: "cp34-* *-win32 *-manylinux_i686"
+      CIBW_BUILD: cp3?-*
+      CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
+      CIBW_TEST_COMMAND: "python -c \"import psychtoolbox as ptb; print(ptb.GetSecs())\""
+      CIBW_BEFORE_BUILD_LINUX: "bash prebuild_linux.sh"
 matrix:
   include:
-    - sudo: required
-      services:
-        - docker
-      env: DOCKER_IMAGE=quay.io/pypa/manylinux2010_x86_64
-           PLAT=manylinux2010_x86_64
+    # perform a linux build
+    - services: docker
+    # and a mac build
+    - os: osx
+      language: generic
+    # and a windows build
+    - os: windows
+      language: generic
+      before_install:
+        - choco install python --version 3.8.0
+        - export PATH="/c/Python38:/c/Python/Scripts:$PATH"
 
 install:
-  - docker pull $DOCKER_IMAGE
+  - python -m pip -U pip
+  - python -m install cibuildwheel==1.0.0
 
 script:
-  - sudo chmod +x ./build-wheels.sh
-  - docker run --rm -e PLAT=$PLAT -v `pwd`:/ptb $DOCKER_IMAGE $PRE_CMD /ptb/build-wheels.sh
-  - ls wheelhouse/
+  # build the wheels, put them into './wheelhouse'
+  - python setup.py install
+  - python -m cibuildwheel --output-dir wheelhouse
 
 deploy:
   provider: releases
   api_key:
     secure: "qnEbN/dJwMarCXnw88oOUjQCNAIca6JGx0ndAxUhfbTN4UyQlEijLEH8pH7jzSJMrhx8zhviwoHfF+TChZkpfHwxcvgkGbEDRlEibbnW1mRUXADB2sAXtKVA5YGQGLOKh23TF5je8Rw7HlWx+MX5Za0I2HIePus9xBEEpyUQEC41XoqP6mTgENKEhy/FTKHCv9hPf4vVMZvY1F7ndzUPx5FqdIOQEnpDgyPpFkt2rWq3ZyWVU/+stNHMt8rlVURt7IgomHVLcoIA0IhLm5ugmJ4VhdhMw3MMvMGv5XpT011beOB0VKVVAP81k5QGTmgerrQK5hv3gQb3v6twPuSatRmccQ2HvIlvWHpyVcGMh/jDW2zDhrRuYMIy0a/7Lx9xNBxFeoen7Av8JLNuFOB40X0Dizysk4WXJpN8TSOQ6fhJ1+X1YV981rewVOrAwOFT9o0pPfHFBpz9vpH1ciS5gZzdqBz27n9A+cmTX/NwO0n11lEpgFN7e/NoWnnnAd1rVFXwj4YYalviUHBi4QMGGyno31I66UaqKBqhQAva7etNX5+NZmlWQ/YYZwnhhcmv+BwTlji96cCJFq0DcqkDw0PwqI37rQyyZlB+ekOGzTRbMP1aVMUSyUkkY2RveWLh0+kboEWCLOX2CoRXnTiuPEsYlJw8Au5bgfaPgtnV0f4="
+  file_glob: true
   file: 
-    - 'wheelhouse/psychtoolbox-3.0.16-cp36-cp36m-manylinux2010_x86_64.whl'
-    - 'wheelhouse/psychtoolbox-3.0.16-cp37-cp37m-manylinux2010_x86_64.whl'
-    - 'wheelhouse/psychtoolbox-3.0.16-cp38-cp38-manylinux2010_x86_64.whl'
+    - 'wheelhouse/psychtoolbox*.whl'
   skip_cleanup: true
   on:
     all_branches: true
