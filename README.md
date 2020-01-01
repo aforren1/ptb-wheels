@@ -1,6 +1,6 @@
 The most recent wheels can be found at https://github.com/aforren1/ptb-wheels/releases.
 
-Using https://github.com/pypa/python-manylinux-demo as reference.
+Uses [cibuildwheel](https://github.com/joerick/cibuildwheel/) + Travis to generate wheels.
 
 And https://stackoverflow.com/questions/12343452/how-to-publish-artifacts-in-travis-ci/33109519#33109519 for deployment tips.
 
