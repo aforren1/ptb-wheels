@@ -9,9 +9,9 @@ env:
       - CIBW_SKIP="cp34-* cp35-* *-win32 *-manylinux_i686"
       - CIBW_BUILD=cp3?-*
       - CIBW_MANYLINUX_X86_64_IMAGE=manylinux2010 # switch to 2014 eventually
-      - CIBW_BEFORE_BUILD="which pip && python -m pip install numpy"
+      - CIBW_BEFORE_BUILD="python -m pip install numpy"
       - CIBW_BEFORE_BUILD_LINUX="bash ./prebuild_linux.sh && python -m pip install numpy"
-      - CIBW_TEST_COMMAND="python -c \"import psychtoolbox as ptb; print(ptb.GetSecs())\""
+      - CIBW_TEST_COMMAND="echo $VIRTUAL_ENV && python -c \"import psychtoolbox as ptb; print(ptb.GetSecs())\""
 
 matrix:
   include:
