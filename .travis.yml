@@ -11,7 +11,7 @@ env:
       - CIBW_MANYLINUX_X86_64_IMAGE=manylinux2010 # switch to 2014 eventually
       - CIBW_BEFORE_BUILD="pip install numpy"
       - CIBW_BEFORE_BUILD_LINUX="bash ./prebuild_linux.sh && pip install numpy"
-     # - CIBW_TEST_COMMAND="python -c \"import psychtoolbox as ptb; print(ptb.GetSecs())\""
+      - CIBW_TEST_COMMAND="python -c \"import psychtoolbox as ptb; print(ptb.GetSecs())\""
 
 matrix:
   include:
