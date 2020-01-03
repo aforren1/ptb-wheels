@@ -11,7 +11,9 @@ env:
       - CIBW_MANYLINUX_X86_64_IMAGE=manylinux2010 # switch to 2014 eventually
       - CIBW_BEFORE_BUILD="python -m pip install numpy"
       - CIBW_BEFORE_BUILD_LINUX="bash ./prebuild_linux.sh && python -m pip install numpy"
-      - CIBW_TEST_COMMAND="echo $VIRTUAL_ENV && python -c \"import psychtoolbox as ptb; print(ptb.GetSecs())\""
+      - CIBW_TEST_COMMAND="python -c \"import os;import pkgutil;x=pkgutil.get_loader('psychtoolbox');
+for root, dirs, files in os.walk(os.path.dirname(x.path)):
+    for filename in files: print(filename)\" && python -c \"import psychtoolbox as ptb; print(ptb.GetSecs())\""
 
 matrix:
   include:
