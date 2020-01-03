@@ -8,6 +8,7 @@ image:
   - Visual Studio 2015
 build_script:
   # windows
+  - cmd: git submodule -q update --init
   - cmd: pip install cibuildwheel==1.1.0
   - cmd: cd psychtoolbox-3 && cibuildwheel --output-dir ..\\wheelhouse && cd ..
 artifacts:
