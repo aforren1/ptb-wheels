@@ -1,0 +1,15 @@
+environment:
+  global:
+      CIBW_SKIP: "cp34-* cp35-* *-win32"
+      CIBW_BUILD: cp3?-*
+      CIBW_BEFORE_BUILD: "python -m pip install numpy"
+      CIBW_TEST_COMMAND: "python -c \"import os;import pkgutil;x=pkgutil.get_loader('psychtoolbox');[print(fn) for (y, z, files) in os.walk(os.path.dirname(x.path)) for fn in files]\" && python -c \"import psychtoolbox as ptb; print(ptb.GetSecs())\""
+image:
+  - Visual Studio 2015
+build_script:
+  # windows
+  - cmd: pip install cibuildwheel==1.1.0
+  - cmd: cd psychtoolbox-3 && cibuildwheel --output-dir ..\\wheelhouse && cd ..
+artifacts:
+  - path: "wheelhouse\\*.whl"
+    name: Wheels
