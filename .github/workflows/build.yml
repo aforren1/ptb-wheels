@@ -13,7 +13,6 @@ env:
 jobs:
   build_wheels:
     name: Build wheel on ${{ matrix.os }}
-    needs: [run_tests]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
