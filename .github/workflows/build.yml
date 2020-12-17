@@ -32,6 +32,7 @@ jobs:
         run: python -m pip install cibuildwheel==1.7.1
       - name: Build wheel
         run: |
+          git submodule update --init --recursive
           cd psychtoolbox-3
           ls
           pwd
