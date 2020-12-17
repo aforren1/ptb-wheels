@@ -6,8 +6,8 @@ env:
   CIBW_SKIP: cp34-* cp35-* *-manylinux_i686
   CIBW_BUILD: cp3?-*
   CIBW_MANYLINUX_X86_64_IMAGE: manylinux2010
-  CIBW_BEFORE_BUILD: python -m pip install numpy
-  CIBW_BEFORE_BUILD_LINUX: bash ./prebuild_linux.sh && python -m pip install numpy
+  CIBW_BEFORE_BUILD: git submodule update --init --recursive && python -m pip install numpy
+  CIBW_BEFORE_BUILD_LINUX: git submodule update --init --recursive && bash ./prebuild_linux.sh && python -m pip install numpy
   CIBW_TEST_COMMAND: python -c "import psychtoolbox as ptb; print(ptb.GetSecs())"
 
 jobs:
@@ -61,7 +61,9 @@ jobs:
       - name: Build source
         run: |
           python -m pip install setuptools wheel numpy
-          python setup.py sdist --formats=zip
+          cd psychtoolbox-3
+          python setup.py sdist --formats=zip --dist-dir=../dist
+          cd ..
       - name: Look
         run: |
           ls dist
