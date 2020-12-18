@@ -1,15 +1,5 @@
-The most recent wheels can be found at https://github.com/aforren1/ptb-wheels/releases.
+![Build](https://github.com/aforren1/ptb-wheels/workflows/Build/badge.svg)
 
-Uses [cibuildwheel](https://github.com/joerick/cibuildwheel/) + Travis to generate wheels.
+The most recent wheels can be found under https://github.com/aforren1/ptb-wheels/actions (click the most recent workflow and find under "Artifacts").
 
-And https://stackoverflow.com/questions/12343452/how-to-publish-artifacts-in-travis-ci/33109519#33109519 for deployment tips.
-
-For a new release:
-
-```
-git submodule update --recursive --remote
-git add --all
-git commit -m <message>
-git tag -m <version> <version>
-git push --tags
-```
+Uses [cibuildwheel](https://github.com/joerick/cibuildwheel/) + GitHub Actions to generate wheels.
