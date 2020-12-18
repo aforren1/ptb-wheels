@@ -1,4 +1,4 @@
 [submodule "psychtoolbox-3"]
     path = psychtoolbox-3
-    url = https://github.com/psychtoolbox-3/psychtoolbox-3
-    branch = master
+    url = https://github.com/aforren1/psychtoolbox-3
+    branch = py-win-fix
