@@ -7,7 +7,7 @@ then
     yum install -y libusb1-devel libXi-devel alsa-lib-devel jack-audio-connection-kit-devel
 
     # build portaudio manually (couldn't find PaAlsa_SetNumPeriods symbol in the system package)
-    git clone https://git.assembla.com/portaudio.git
+    git clone https://github.com/portaudio/portaudio.git
     cd portaudio
     git checkout pa_stable_v190600_20161030
     ./configure && make
