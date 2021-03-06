@@ -17,3 +17,5 @@ And to update, use
 ```
 git subtree pull --prefix psychtoolbox-3 https://github.com/psychtoolbox-3/psychtoolbox-3.git <version> --squash
 ```
+
+(and update psychtoolbox-3/PsychPython/psychtoolbox/\_version.py)
