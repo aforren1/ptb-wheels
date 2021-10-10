@@ -31,6 +31,7 @@ jobs:
         run: python -m pip install cibuildwheel==2.1.3
       - name: Build wheel
         run: |
+          git submodule update --init --recursive
           cp prebuild_linux.sh psychtoolbox-3/prebuild_linux.sh
           cd psychtoolbox-3
           python -m cibuildwheel --output-dir ../dist
@@ -54,6 +55,7 @@ jobs:
 
       - name: Build source
         run: |
+          git submodule update --init --recursive
           python -m pip install setuptools wheel numpy
           cd psychtoolbox-3
           python setup.py sdist --formats=zip --dist-dir=../dist
