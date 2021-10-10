@@ -1,4 +1,0 @@
-include README
-include PsychSourceGL/License.txt
-recursive-include PsychSourceGL *.c
-recursive-include PsychSourceGL *.h
