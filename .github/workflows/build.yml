@@ -94,7 +94,7 @@ jobs:
       - name: Install psychtoolbox from source
         run: |
           if [ "$RUNNER_OS"  == "Linux" ]; then
-              bash ./prebuild_linux.sh
+              sudo apt install -y libusb-1.0-0-dev portaudio19-dev libasound2-dev
           fi
           python -m pip install numpy wheel
           python -m pip install dist/*.zip
