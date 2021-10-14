@@ -92,6 +92,7 @@ jobs:
           architecture: "x64"
       
       - name: Install psychtoolbox from source
+        shell: bash
         run: |
           if [ "$RUNNER_OS"  == "Linux" ]; then
               sudo apt install -y libusb-1.0-0-dev portaudio19-dev libasound2-dev
