@@ -71,7 +71,7 @@ jobs:
 
   source_install:
     needs: [build_source]
-    name: Build wheel on ${{ matrix.os }}
+    name: Install source on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -80,6 +80,10 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: wheels
+          path: ./dist
 
       - uses: actions/setup-python@v2
         name: Install Python
