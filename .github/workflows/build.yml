@@ -93,15 +93,14 @@ jobs:
       
       - name: Install psychtoolbox from source
         run: |
-          ls dist
           if [ "$RUNNER_OS"  == "Linux" ]; then
-              CIBW_BEFORE_ALL_LINUX
+              bash ./prebuild_linux.sh
           fi
           python -m pip install numpy wheel
           python -m pip install dist/*.zip
       
       - name: Test source install
-        run: CIBW_TEST_COMMAND
+        run: python -c "import psychtoolbox as ptb; print(ptb.GetSecs())"
 
     
 
