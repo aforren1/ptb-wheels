@@ -1,0 +1,4 @@
+To switch submodule,
+1. edit .gitmodules with new URL
+2. run `git submodule sync`
+3. cd into submodule, checkout wanted commit
