@@ -6,7 +6,8 @@ then
     # Install system packages required by psychtoolbox
     yum install -y libusb1-devel libXi-devel alsa-lib-devel \
       jack-audio-connection-kit-devel gstreamer gstreamer-devel \
-      mesa-libGL-devel mesa-libGLU-devel freeglut freeglut-devel xorg-x11-server-devel
+      mesa-libGL-devel mesa-libGLU-devel freeglut freeglut-devel xorg-x11-server-devel \
+      libXrandr-devel libXcursor-devel
 
     # build portaudio manually (couldn't find PaAlsa_SetNumPeriods symbol in the system package)
     git clone https://github.com/portaudio/portaudio.git
