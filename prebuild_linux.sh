@@ -4,7 +4,7 @@ set -e -x
 if [ ! -d "portaudio/" ]; # check if we've run this already
 then
     # Install system packages required by psychtoolbox
-    yum install -y libusb1-devel libXi-devel alsa-lib-devel \ 
+    yum install -y libusb1-devel libXi-devel alsa-lib-devel \
       jack-audio-connection-kit-devel gstreamer gstreamer-devel \
       mesa-libGL-devel
 
