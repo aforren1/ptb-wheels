@@ -94,7 +94,7 @@ jobs:
         shell: bash
         run: |
           if [ "$RUNNER_OS"  == "Linux" ]; then
-              sudo apt install -y libusb-1.0-0-dev portaudio19-dev libasound2-dev xorg-dev
+              sudo apt install -y libusb-1.0-0-dev portaudio19-dev libasound2-dev xorg-dev libglu1-mesa-dev libgl1-mesa-dev
           fi
           python -m pip install numpy wheel
           python -m pip install dist/*.zip
