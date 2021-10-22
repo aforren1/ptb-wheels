@@ -94,7 +94,7 @@ jobs:
         shell: bash
         run: |
           if [ "$RUNNER_OS"  == "Linux" ]; then
-              sudo apt install -y libxi-dev libusb-1.0-0-dev portaudio19-dev libasound2-dev
+              sudo apt build-dep psychtoolbox-3
           fi
           python -m pip install numpy wheel
           python -m pip install dist/*.zip
