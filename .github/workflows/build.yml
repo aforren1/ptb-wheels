@@ -6,9 +6,8 @@ env:
   CIBW_BUILD: cp37-*
   CIBW_MANYLINUX_X86_64_IMAGE: manylinux2010
   CIBW_BEFORE_ALL_LINUX: bash ./prebuild_linux.sh
-  CIBW_BEFORE_ALL_MACOS: brew install openblas # 3.10 numpy wheels not available yet, so need to get openblas (accelerate doesn't work?)
+  CIBW_BEFORE_ALL_WINDOWS: choco install gstreamer gstreamer-devel -y
   CIBW_BEFORE_BUILD: python -m pip install oldest-supported-numpy # needed at install time (should be in a pyproject.toml)
-  CIBW_BEFORE_BUILD_MACOS: OPENBLAS="$(brew --prefix openblas)" python -m pip install oldest-supported-numpy
   CIBW_TEST_COMMAND: python -c "import psychtoolbox as ptb; print(ptb.GetSecs())"
   CIBW_ARCHS_MACOS: x86_64 # universal2 # build wheels that'll work on M1 Macs
 
@@ -129,12 +128,7 @@ jobs:
         # install numpy first, because the --no-index keeps us from checking PyPI
         # normally, numpy is auto-installed
         run: |
-          if [ "$RUNNER_OS"  == "macOS" ]; then
-              brew install openblas
-              OPENBLAS="$(brew --prefix openblas)" python -m pip install numpy
-          else
-              python -m pip install numpy
-          fi
+          python -m pip install numpy
           python -m pip install --no-index --find-links=./dist/ psychtoolbox
       
       - name: Test limited wheel
