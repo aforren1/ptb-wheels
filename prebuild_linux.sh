@@ -5,7 +5,7 @@ if [ ! -d "portaudio/" ]; # check if we've run this already
 then
     # Install system packages required by psychtoolbox
     yum install -y libusb1-devel libXi-devel alsa-lib-devel \
-      jack-audio-connection-kit-devel gstreamer gstreamer-devel \
+      jack-audio-connection-kit-devel gstreamer1-devel \
       mesa-libGL-devel mesa-libGLU-devel freeglut freeglut-devel xorg-x11-server-devel \
       libXrandr-devel libXcursor-devel gstreamer-plugins-base-devel
 
