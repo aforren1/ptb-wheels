@@ -7,7 +7,8 @@ then
     yum install -y libusb1-devel libXi-devel alsa-lib-devel \
       jack-audio-connection-kit-devel \
       mesa-libGL-devel mesa-libGLU-devel freeglut freeglut-devel xorg-x11-server-devel \
-      libXrandr-devel libXcursor-devel gstreamer1-plugins-base-devel
+      libXrandr-devel libXcursor-devel gstreamer1-plugins-base-devel gstreamer1-plugins-good \
+      libdc1394-devel
 
     # build portaudio manually (couldn't find PaAlsa_SetNumPeriods symbol in the system package)
     git clone https://github.com/portaudio/portaudio.git
