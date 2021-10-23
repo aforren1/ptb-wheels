@@ -4,7 +4,7 @@ on: [push]
 
 env:
   CIBW_BUILD: cp37-*
-  CIBW_MANYLINUX_X86_64_IMAGE: manylinux2010
+  CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
   CIBW_BEFORE_ALL_LINUX: bash ./prebuild_linux.sh
   CIBW_BEFORE_ALL_WINDOWS: choco install gstreamer gstreamer-devel -y
   CIBW_BEFORE_BUILD: python -m pip install oldest-supported-numpy # needed at install time (should be in a pyproject.toml)
@@ -101,6 +101,8 @@ jobs:
               sudo sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
               sudo apt-get update
               sudo apt-get build-dep psychtoolbox-3 -y
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+              choco install gstreamer gstreamer-devel -y
           fi
           python -m pip install numpy wheel
           python -m pip install dist/*.zip
