@@ -10,7 +10,7 @@ env:
   CIBW_BEFORE_BUILD: python -m pip install oldest-supported-numpy # needed at install time (should be in a pyproject.toml)
   CIBW_TEST_COMMAND: python -c "import psychtoolbox as ptb; print(ptb.GetSecs())"
   CIBW_ARCHS_MACOS: x86_64 # universal2 # build wheels that'll work on M1 Macs
-  OSES: [ubuntu-20.04] #, windows-2019] , macOS-10.15]
+  OSES: "[ubuntu-20.04]" #, windows-2019] , macOS-10.15]
 
 jobs:
   build_wheels:
