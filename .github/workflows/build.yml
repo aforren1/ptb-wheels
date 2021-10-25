@@ -32,6 +32,11 @@ jobs:
           python-version: "3.7"
           architecture: "x64"
       
+        # see e.g. https://github.com/actions/toolkit/issues/506
+      - name: precreate gstreamer path
+        if: startsWith(runner.os, 'Windows')
+        run: mkdir C:\gstreamer\1.0
+
       - uses: actions/cache@v2
         if: startsWith(runner.os, 'Windows')
         with:
@@ -104,6 +109,11 @@ jobs:
           python-version: ${{ matrix.py }}
           architecture: "x64"
 
+        # see e.g. https://github.com/actions/toolkit/issues/506
+      - name: precreate gstreamer path
+        if: startsWith(runner.os, 'Windows')
+        run: mkdir C:\gstreamer\1.0
+
       - uses: actions/cache@v2
         if: startsWith(runner.os, 'Windows')
         with:
@@ -154,6 +164,11 @@ jobs:
         with:
           name: wheels
           path: ./dist
+
+        # see e.g. https://github.com/actions/toolkit/issues/506
+      - name: precreate gstreamer path
+        if: startsWith(runner.os, 'Windows')
+        run: mkdir C:\gstreamer\1.0
 
       - uses: actions/cache@v2
         if: startsWith(runner.os, 'Windows')
