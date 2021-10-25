@@ -17,7 +17,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04] #, windows-2019] , macOS-10.15]
+        os: 
+          #- ubuntu-20.04
+          - windows-2019
+          #- macOS-10.15
 
     steps:
       - uses: actions/checkout@v2
@@ -43,7 +46,7 @@ jobs:
           path: ./dist
 
   build_source:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
@@ -74,7 +77,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04] #, windows-2019] , macOS-10.15]
+        os: 
+          #- ubuntu-20.04
+          - windows-2019
+          #- macOS-10.15
         py: ["3.7"]
     
     steps:
@@ -116,7 +122,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04] #, windows-2019] , macOS-10.15]
+        os: 
+          #- ubuntu-20.04
+          - windows-2019
+          #- macOS-10.15
         py: ["3.7", "3.8", "3.9", "3.10"]
     
     steps:
