@@ -3,7 +3,7 @@ name: Build
 on: [push]
 
 env:
-  CIBW_SKIP: cp36-*
+  CIBW_SKIP: cp36-* pp*
   CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
   CIBW_BEFORE_ALL_LINUX: bash ./prebuild_linux.sh
   CIBW_TEST_COMMAND: python -c "import psychtoolbox as ptb; print(ptb.GetSecs())"
