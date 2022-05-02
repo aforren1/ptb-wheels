@@ -6,7 +6,6 @@ env:
   CIBW_SKIP: cp36-*
   CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
   CIBW_BEFORE_ALL_LINUX: bash ./prebuild_linux.sh
-  CIBW_BEFORE_BUILD: python -m pip install oldest-supported-numpy # needed at install time (should be in a pyproject.toml)
   CIBW_TEST_COMMAND: python -c "import psychtoolbox as ptb; print(ptb.GetSecs())"
   CIBW_ARCHS_MACOS: x86_64 # universal2 # build wheels that'll work on M1 Macs
 
@@ -56,7 +55,6 @@ jobs:
       - name: Build source
         run: |
           git submodule update --init --recursive
-          python -m pip install setuptools wheel numpy
           cd psychtoolbox-3
           python setup.py sdist --formats=zip --dist-dir=../dist
           cd ..
