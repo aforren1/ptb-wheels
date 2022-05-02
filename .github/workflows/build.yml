@@ -55,6 +55,7 @@ jobs:
       - name: Build source
         run: |
           git submodule update --init --recursive
+          python -m pip install setuptools wheel numpy
           cd psychtoolbox-3
           python setup.py sdist --formats=zip --dist-dir=../dist
           cd ..
