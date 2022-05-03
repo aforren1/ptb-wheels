@@ -62,6 +62,8 @@ jobs:
           cd ..
       - name: Look
         run: ls dist
+      - name: Test install
+        run: python -m pip install dist/*.zip && python -c "import psychtoolbox as ptb; print(ptb.GetSecs())"
       - uses: actions/upload-artifact@v2
         with:
           name: wheels
