@@ -10,7 +10,7 @@ env:
   CIBW_ARCHS_MACOS: x86_64 # universal2 # build wheels that'll work on M1 Macs
   CIBW_ARCHS_LINUX: auto64
   CIBW_ENVIRONMENT: PTB_LIMITED_WHEEL=1
-  CIBW_ENVIRONMENT_MACOS: CC=gcc-10
+  CIBW_ENVIRONMENT_MACOS: CC=gcc-11
 
 jobs:
   build_wheels:
