@@ -1,4 +1,4 @@
 [submodule "psychtoolbox-3"]
 	path = psychtoolbox-3
-	url = https://github.com/kleinerm/psychtoolbox-3.git
+	url = https://github.com/aforren1/psychtoolbox-3.git
 	branch = master
