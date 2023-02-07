@@ -12,6 +12,7 @@ env:
   CIBW_ENVIRONMENT: PTB_LIMITED_WHEEL=1
   CIBW_ENVIRONMENT_MACOS: CC=clang
   CIBW_BUILD_VERBOSITY: 1
+  CIBW_REPAIR_WHEEL_COMMAND_MACOS: '' # skip repair for now to see if PsychHID will load without libusb
 
 jobs:
   build_wheels:
@@ -50,7 +51,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/setup-python@v3
+      - uses: actions/setup-python@v4
         name: Install Python
         with:
           python-version: "3.8"
