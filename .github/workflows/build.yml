@@ -12,7 +12,6 @@ env:
   CIBW_ENVIRONMENT: PTB_LIMITED_WHEEL=1
   CIBW_ENVIRONMENT_MACOS: CC=clang PTB_LIMITED_WHEEL=1
   CIBW_BUILD_VERBOSITY: 1
-  CIBW_REPAIR_WHEEL_COMMAND_MACOS: '' # skip repair for now to see if PsychHID will load without libusb
 
 jobs:
   build_wheels:
