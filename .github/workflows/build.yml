@@ -76,7 +76,7 @@ jobs:
       - name: Install PTB
         run: python -m pip install --find-links=dist psychtoolbox
       - name: Test PTB
-        run: ${{ CIBW_TEST_COMMAND }}
+        run: ${{ env.CIBW_TEST_COMMAND }}
       - uses: actions/upload-artifact@v3
         if: contains(matrix.os, 'ubuntu')
         with:
