@@ -73,8 +73,10 @@ jobs:
       - name: Install Ubuntu deps
         if: contains(matrix.os, 'ubuntu')
         run: sudo apt-get install -y libusb-1.0-0-dev portaudio19-dev libasound2-dev libxi-dev
-      - name: Test install
-        run: python -m pip install --find-links=dist psychtoolbox && eval $CIBW_TEST_COMMAND
+      - name: Install PTB
+        run: python -m pip install --find-links=dist psychtoolbox
+      - name: Test PTB
+        run: ${{ CIBW_TEST_COMMAND }}
       - uses: actions/upload-artifact@v3
         if: contains(matrix.os, 'ubuntu')
         with:
