@@ -71,12 +71,12 @@ jobs:
       - name: Look
         run: ls dist
       - name: Install Ubuntu deps
-        if: contains('ubuntu', matrix.os)
+        if: contains(matrix.os, 'ubuntu')
         run: sudo apt-get install -y libusb-1.0-0-dev portaudio19-dev libasound2-dev libxi-dev
       - name: Test install
         run: python -m pip install dist/*.tar.gz && eval $CIBW_TEST_COMMAND
       - uses: actions/upload-artifact@v3
-        if: contains('ubuntu', matrix.os)
+        if: contains(matrix.os, 'ubuntu')
         with:
           name: wheels
           path: ./dist
