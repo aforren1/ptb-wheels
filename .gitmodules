@@ -1,4 +1,7 @@
 [submodule "psychtoolbox-3"]
 	path = psychtoolbox-3
-	url = https://github.com/aforren1/psychtoolbox-3
-	branch = py-long-desc
+	# TODO: Revert once merged
+	# url = https://github.com/aforren1/psychtoolbox-3
+	# branch = py-long-desc
+	url = https://github.com/larsoner/psychtoolbox-3
+	branch = np2
