@@ -2,6 +2,4 @@
 	path = psychtoolbox-3
 	# TODO: Revert once merged
 	# url = https://github.com/aforren1/psychtoolbox-3
-	# branch = py-long-desc
 	url = https://github.com/larsoner/psychtoolbox-3
-	branch = np2
