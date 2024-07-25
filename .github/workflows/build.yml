@@ -1,5 +1,9 @@
 name: Build
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number }}-${{ github.event.ref }}
+  cancel-in-progress: true
+
 on: [push, pull_request]
 
 env:
@@ -76,7 +80,7 @@ jobs:
         if: contains(matrix.os, 'ubuntu')
         run: sudo apt-get install -y libusb-1.0-0-dev portaudio19-dev libasound2-dev libxi-dev
       - name: Install PTB
-        run: python -m pip install dist/*.tar.gz
+        run: python -m pip install -v dist/*.tar.gz
         shell: bash
       - name: Test PTB
         run: ${{ env.CIBW_TEST_COMMAND }}
