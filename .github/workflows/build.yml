@@ -76,7 +76,8 @@ jobs:
         if: contains(matrix.os, 'ubuntu')
         run: sudo apt-get install -y libusb-1.0-0-dev portaudio19-dev libasound2-dev libxi-dev
       - name: Install PTB
-        run: python -m pip install --find-links=dist psychtoolbox
+        run: python -m pip install dist/*.tar.gz
+        shell: bash
       - name: Test PTB
         run: ${{ env.CIBW_TEST_COMMAND }}
       - uses: actions/upload-artifact@v4
