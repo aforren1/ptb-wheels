@@ -11,7 +11,8 @@ env:
   CIBW_ARCHS_MACOS: x86_64 # universal2 # build wheels that'll work on M1 Macs
   CIBW_ARCHS_LINUX: auto64
   CIBW_ENVIRONMENT: PTB_LIMITED_WHEEL=1
-  CIBW_ENVIRONMENT_MACOS: CC=clang PTB_LIMITED_WHEEL=1
+  # libusb1.dylib distributed with PTB has a minimum target of 13
+  CIBW_ENVIRONMENT_MACOS: CC=clang PTB_LIMITED_WHEEL=1 MACOSX_DEPLOYMENT_TARGET=13.0
   CIBW_BUILD_VERBOSITY: 1
 
 jobs:
@@ -20,12 +21,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-13]
+        os: [ubuntu-latest, windows-latest, macos-13]
+      fail-fast: false
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         name: Install Python
         with:
           python-version: "3.9"
@@ -38,11 +40,11 @@ jobs:
           git submodule update --init --recursive
           cp prebuild_linux.sh psychtoolbox-3/prebuild_linux.sh
           cd psychtoolbox-3
-          python -m cibuildwheel --output-dir ../dist
+          python -m cibuildwheel --archs native --output-dir ../dist
           cd ..
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
-          name: wheels
+          name: wheels-${{ matrix.os }}
           path: ./dist
 
   build_source:
@@ -50,15 +52,15 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04, windows-2019, macOS-11]
+        os: [ubuntu-20.04, windows-2019, macOS-]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         name: Install Python
         with:
-          python-version: "3.8"
+          python-version: "3.9"
           architecture: "x64"
 
       - name: Build source
@@ -77,33 +79,33 @@ jobs:
         run: python -m pip install --find-links=dist psychtoolbox
       - name: Test PTB
         run: ${{ env.CIBW_TEST_COMMAND }}
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: contains(matrix.os, 'ubuntu')
         with:
-          name: wheels
+          name: wheels-sdist
           path: ./dist
 
   upload:
     runs-on: ubuntu-latest
     needs: [build_source, build_wheels]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
-          name: wheels
+          name: wheels-*
           path: ./dist
+          merge-multiple: true
 
-      - uses: actions/setup-python@v3
+      - uses: actions/setup-python@v5
         name: Install Python
         with:
-          python-version: "3.8"
+          python-version: "3.9"
           architecture: "x64"
 
       - name: Install twine
         run: python -m pip install twine
 
       - name: Test uploadability
-        run: python -m twine check dist/*
+        run: python -m twine check --strict dist/*
 
       - name: Upload to GitHub Releases
         uses: softprops/action-gh-release@v1
