@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import psychtoolbox as ptb
 import pprint
 
