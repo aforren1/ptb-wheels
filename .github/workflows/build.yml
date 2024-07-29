@@ -9,7 +9,6 @@ on: [push, pull_request]
 env:
   CIBW_SKIP: '*musllinux*'
   CIBW_BUILD: 'cp39-*'
-  CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
   CIBW_BEFORE_ALL_LINUX: bash ./cibw_before_all_linux.sh
   CIBW_BEFORE_ALL: bash ./cibw_before_all.sh
   CIBW_TEST_COMMAND: 'python {project}/cibw_test_command.py'
