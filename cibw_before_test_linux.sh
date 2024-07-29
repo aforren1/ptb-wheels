@@ -3,7 +3,7 @@
 set -exo pipefail
 
 yum install -y pulseaudio pulseaudio-utils alsa-utils
+modprobe snd-dummy
 pulseaudio --start
 pactl list
-modprobe snd-dummy
-aplay -l
+aplay -L || true
