@@ -78,8 +78,9 @@ jobs:
           path: ./dist
       - run: ls -alR ./dist
         shell: bash
-      - run: pip install dist/*.whl ${{ matrix.numpy }}
+      - run: pip install dist/*.whl ${{ matrix.numpy }} sounddevice
         shell: bash
+      - run: python -m sounddevice  # list audio devices
       - run: python cibw_test_command.py
 
   build_source:
