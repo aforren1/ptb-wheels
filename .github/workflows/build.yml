@@ -78,11 +78,10 @@ jobs:
           path: ./dist
       - run: ls -alR ./dist
         shell: bash
-      - run: pip install dist/*.whl ${{ matrix.numpy }} sounddevice
+      - run: pip install dist/*.whl ${{ matrix.numpy }} sounddevice rtmixer
         shell: bash
-      - run: sudo apt install libportaudio2  # needed on Linux
-        if: startswith(matrix.os, 'ubuntu')
       - run: python -m sounddevice  # list audio devices
+      - run: python -c "import numpy as np, rtmixer, time; mixer = rtmixer.Mixer(); print(mixer.device); mixer.start(); mixer.play_buffer(np.zeros(1, dtype=float), 1); time.sleep(1)"
       - run: python cibw_test_command.py
 
   build_source:
