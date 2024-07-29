@@ -96,7 +96,7 @@ jobs:
         with:
           python-version: "3.9"
           architecture: "x64"
-
+      - uses: LABSN/sound-ci-helpers@main
       - name: Build source
         run: |
           git submodule update --init --recursive
