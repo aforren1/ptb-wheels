@@ -76,7 +76,10 @@ jobs:
         with:
           pattern: wheels-${{ matrix.os }}
           path: ./dist
+      - run: ls -alR ./dist
+        shell: bash
       - run: pip install dist/*.whl ${{ matrix.numpy }}
+        shell: bash
       - run: python cibw_test_command.py
 
   build_source:
