@@ -17,7 +17,7 @@ env:
   CIBW_ENVIRONMENT: PTB_LIMITED_WHEEL=1
   # libusb1.dylib distributed with PTB has a minimum target of 13
   CIBW_ENVIRONMENT_MACOS: CC=clang PTB_LIMITED_WHEEL=1 MACOSX_DEPLOYMENT_TARGET=13.0
-  CIBW_BUILD_VERBOSITY: 1
+  CIBW_BUILD_VERBOSITY: 3
 
 jobs:
   build_wheels:
