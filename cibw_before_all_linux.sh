@@ -1,9 +1,6 @@
 #!/bin/bash
 set -exo pipefail
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-./${SCRIPT_DIR}/cibw_before_all.sh
-
 if [ ! -d "portaudio/" ]; # check if we've run this already
 then
     # Install system packages required by psychtoolbox
