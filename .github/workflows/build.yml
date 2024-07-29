@@ -80,6 +80,7 @@ jobs:
         shell: bash
       - run: pip install dist/*.whl ${{ matrix.numpy }} sounddevice
         shell: bash
+      - run: sudo apt install portaudio  # needed on Linux
       - run: python -m sounddevice  # list audio devices
       - run: python cibw_test_command.py
 
