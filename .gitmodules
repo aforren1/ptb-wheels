@@ -1,5 +1,3 @@
 [submodule "psychtoolbox-3"]
 	path = psychtoolbox-3
-	# TODO: Revert once merged
-	# url = https://github.com/aforren1/psychtoolbox-3
-	url = https://github.com/larsoner/psychtoolbox-3
+	url = https://github.com/kleinerm/Psychtoolbox-3
