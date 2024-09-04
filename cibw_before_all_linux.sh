@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e -x
+set -exo pipefail
 
 if [ ! -d "portaudio/" ]; # check if we've run this already
 then
