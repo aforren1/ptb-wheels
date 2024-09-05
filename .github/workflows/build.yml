@@ -9,13 +9,13 @@ on: [push, pull_request]
 env:
   CIBW_SKIP: '*musllinux*'
   CIBW_BUILD: 'cp39-*'
+  CIBW_BEFORE_ALL_MACOS: bash ./cibw_before_all_macos.sh
   CIBW_BEFORE_ALL_LINUX: bash ./cibw_before_all_linux.sh
   CIBW_TEST_COMMAND: 'python {project}/cibw_test_command.py'
   CIBW_ARCHS_MACOS: x86_64 # universal2 # build wheels that'll work on M1 Macs
   CIBW_ARCHS_LINUX: auto64
   CIBW_ENVIRONMENT_WINDOWS: PTB_LIMITED_WHEEL=1
   CIBW_ENVIRONMENT_LINUX: PTB_LIMITED_WHEEL=1 PTB_SOUND_TEST=0
-  # libusb1.dylib distributed with PTB has a minimum target of 13
   CIBW_ENVIRONMENT_MACOS: CC=clang PTB_LIMITED_WHEEL=1 MACOSX_DEPLOYMENT_TARGET=11.0
   CIBW_BUILD_VERBOSITY: 1
 
