@@ -92,7 +92,7 @@ jobs:
         shell: bash
       # TODO: Locally psychtoolbox.audio.get_devices() works fine, but not on GHA
       # despite sounddevice and rtmixer (which also uses PortAudio) working fine
-      - run: echo "PTB_SOUND_TEST=0" >> $GITHUB_ENV
+      - run: echo "PTB_SOUND_TEST=0 PTB_USB_TEST=0" >> $GITHUB_ENV
         if: runner.os == 'linux'
       - run: python cibw_test_command.py
 
