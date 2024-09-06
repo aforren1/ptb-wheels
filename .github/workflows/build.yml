@@ -127,6 +127,8 @@ jobs:
       - name: Install PTB
         run: python -m pip install -v dist/*.tar.gz
         shell: bash
+      - run: echo "PTB_USB_TEST=0" >> $GITHUB_ENV
+        if: runner.os == 'linux'
       - name: Test PTB
         run: python cibw_test_command.py
       - uses: actions/upload-artifact@v4
