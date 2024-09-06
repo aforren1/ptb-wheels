@@ -7,6 +7,7 @@ concurrency:
 on: [push, pull_request]
 
 env:
+  MACOSX_DEPLOYMENT_TARGET: 11.0
   CIBW_SKIP: '*musllinux*'
   CIBW_BUILD: 'cp39-*'
   CIBW_BEFORE_ALL_LINUX: bash ./cibw_before_all_linux.sh
@@ -15,8 +16,7 @@ env:
   CIBW_ARCHS_LINUX: auto64
   CIBW_ENVIRONMENT_WINDOWS: PTB_LIMITED_WHEEL=1
   CIBW_ENVIRONMENT_LINUX: PTB_LIMITED_WHEEL=1 PTB_SOUND_TEST=0
-  # libusb1.dylib distributed with PTB has a minimum target of 13
-  CIBW_ENVIRONMENT_MACOS: CC=clang PTB_LIMITED_WHEEL=1 MACOSX_DEPLOYMENT_TARGET=13.0
+  CIBW_ENVIRONMENT_MACOS: CC=clang PTB_LIMITED_WHEEL=1 MACOSX_DEPLOYMENT_TARGET=11.0
   CIBW_BUILD_VERBOSITY: 1
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-13]
+        os: [ubuntu-latest, windows-latest, macos-12]
       fail-fast: false
 
     steps:
@@ -35,6 +35,16 @@ jobs:
         with:
           python-version: "3.9"
           architecture: "x64"
+      - name: Build libusb targeted at MacOS 11
+        if: runner.os == 'macOS'
+        run: |
+          brew update
+          brew install automake
+          git clone https://github.com/libusb/libusb.git
+          cd libusb
+          git checkout v1.0.27
+          bash ./autogen.sh && ./configure && make && make install
+          cd ..
       - name: Set up audio device for testing
         uses: LABSN/sound-ci-helpers@main
       - name: Set up project directory
@@ -58,7 +68,7 @@ jobs:
     runs-on: ${{ matrix.os}}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-13]
+        os: [ubuntu-latest, windows-latest, macos-12]
         python: ['3.9', '3.12']
         include:
           - os: ubuntu-latest
@@ -91,7 +101,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-13]
+        os: [ubuntu-latest, windows-latest, macos-12]
 
     steps:
       - uses: actions/checkout@v4
