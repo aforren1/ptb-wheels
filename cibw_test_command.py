@@ -23,3 +23,7 @@ from psychtoolbox import audio  # noqa: F401
 if os.getenv("PTB_SOUND_TEST", "").lower() not in ("false", "0"):
     pprint.pprint(audio.get_devices())
     assert audio.get_devices()
+
+# test that libusb is found
+if os.getenv("PTB_USB_TEST", "").lower() not in ("false", "0"):
+    assert(ptb.PsychHID("OpenUSBDevice", -1, -1) == 1)
