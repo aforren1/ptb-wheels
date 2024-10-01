@@ -162,7 +162,7 @@ jobs:
         run: python -m twine check --strict dist/*
 
       - name: Upload to GitHub Releases
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         if: startsWith(github.event.ref, 'refs/tags')
         with:
           files: dist/*
