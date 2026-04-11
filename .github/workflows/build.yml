@@ -125,6 +125,15 @@ jobs:
       - name: Install Ubuntu deps
         if: contains(matrix.os, 'ubuntu')
         run: sudo apt-get install -y libusb-1.0-0-dev portaudio19-dev libasound2-dev libxi-dev
+      - name: Set CFLAGS/CXXFLAGS
+        if: runner.os == 'linux' || runner.os == 'macOS'
+        run: |
+          echo "CFLAGS=$CFLAGS -DPSYCH_NOLM=1" >> $GITHUB_ENV
+          echo "CXXFLAGS=$CXXFLAGS -DPSYCH_NOLM=1" >> $GITHUB_ENV
+      - name: Set CL
+        if: runner.os == 'windows'
+        run: |
+          echo "CL=/DPSYCH_NOLM=1" >> $GITHUB_ENV
       - name: Install PTB
         run: python -m pip install -v dist/*.tar.gz
         shell: bash
