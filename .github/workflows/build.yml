@@ -35,6 +35,10 @@ jobs:
         with:
           python-version: "3.11"
           architecture: "x64"
+      - name: Set up project directory
+        run: |
+          git submodule update --init --recursive
+          cp -av cibw_* psychtoolbox-3/
       - name: Build libusb targeted at MacOS 11
         if: runner.os == 'macOS'
         run: |
@@ -53,10 +57,7 @@ jobs:
           cp -L /usr/local/lib/libusb-1.0.dylib psychtoolbox-3/PsychSourceGL/Cohorts/libusb1-win32/libusb-1.0.dylib
       - name: Set up audio device for testing
         uses: LABSN/sound-ci-helpers@main
-      - name: Set up project directory
-        run: |
-          git submodule update --init --recursive
-          cp -av cibw_* psychtoolbox-3/
+
         shell: bash
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==3.4.1
