@@ -19,6 +19,12 @@ env:
   CIBW_ENVIRONMENT_LINUX: PTB_LIMITED_WHEEL=1 PTB_SOUND_TEST=0 PTB_USB_TEST=0 PSYCH_NOLM=1 CFLAGS="$CFLAGS -DPSYCH_NOLM=1" CXXFLAGS="$CXXFLAGS -DPSYCH_NOLM=1"
   CIBW_ENVIRONMENT_MACOS: CC=clang PTB_LIMITED_WHEEL=1 MACOSX_DEPLOYMENT_TARGET=11.0 PSYCH_NOLM=1 CFLAGS="$CFLAGS -DPSYCH_NOLM=1" CXXFLAGS="$CXXFLAGS -DPSYCH_NOLM=1"
   CIBW_BUILD_VERBOSITY: 1
+  CIBW_REPAIR_WHEEL_COMMAND_LINUX: >
+      auditwheel repair -w {dest_dir} {wheel}
+      --exclude libudev.so.1
+      --exclude libasound.so.2
+      --exclude libjack.so.0
+      --exclude libcrypto.so.1.1
 
 jobs:
   build_wheels:
@@ -76,7 +82,7 @@ jobs:
           python-version: "${{ matrix.python }}"
       - uses: actions/download-artifact@v8
         with:
-          name: wheels-${{ matrix.os }}
+          name: wheels-${{ matrix.os == 'macos-15-intel' && 'macos-14' || matrix.os }}
           path: ./dist
       - run: ls -alR ./dist
         shell: bash
