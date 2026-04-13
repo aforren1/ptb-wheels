@@ -48,7 +48,7 @@ jobs:
             CFLAGS="-arch x86_64 -arch arm64 -mmacosx-version-min=11.0" \
             LDFLAGS="-arch x86_64 -arch arm64" \
             --disable-dependency-tracking
-          make && make install
+          make && sudo make install
           cd ..
       - name: Set up audio device for testing
         uses: LABSN/sound-ci-helpers@main
