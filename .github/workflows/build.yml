@@ -50,6 +50,7 @@ jobs:
             --disable-dependency-tracking
           make && sudo make install
           cd ..
+          cp -L /usr/local/lib/libusb-1.0.dylib psychtoolbox-3/PsychSourceGL/Cohorts/libusb1-win32/libusb-1.0.dylib
       - name: Set up audio device for testing
         uses: LABSN/sound-ci-helpers@main
       - name: Set up project directory
