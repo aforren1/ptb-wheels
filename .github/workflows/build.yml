@@ -39,10 +39,10 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew update
-          brew install automake
+          brew install automake autoconf libtool
           git clone https://github.com/libusb/libusb.git
           cd libusb
-          git checkout v1.0.27
+          git checkout v1.0.29
           bash ./autogen.sh
           ./configure \
             CFLAGS="-arch x86_64 -arch arm64 -mmacosx-version-min=11.0" \
