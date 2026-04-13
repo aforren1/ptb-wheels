@@ -42,7 +42,7 @@ jobs:
         shell: bash
       - name: Build libusb targeted at MacOS 11
         if: runner.os == 'macOS'
-        uses: ./.github/actions/build-libusb.yml
+        uses: ./.github/actions/build-libusb
       - name: Set up audio device for testing
         uses: LABSN/sound-ci-helpers@main
       - name: Install cibuildwheel
@@ -112,7 +112,7 @@ jobs:
           git submodule update --init --recursive
       - name: Build libusb targeted at MacOS 11
         if: runner.os == 'macOS'
-        uses: ./.github/actions/build-libusb.yml
+        uses: ./.github/actions/build-libusb
       - name: Build source
         run: |
           python -m pip install build
