@@ -63,7 +63,7 @@ jobs:
           path: ./dist
 
   test_wheels:
-    name: Test ${{ matrix.os }} ${{ matrix.python }} ${{ matrix.numpy }}
+    name: Test wheels for ${{ matrix.os }} ${{ matrix.python }} ${{ matrix.numpy }}
     needs: build_wheels
     runs-on: ${{ matrix.os }}
     strategy:
@@ -75,9 +75,9 @@ jobs:
             python: '3.11'
       fail-fast: false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: LABSN/sound-ci-helpers@main
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "${{ matrix.python }}"
       - uses: actions/download-artifact@v8
