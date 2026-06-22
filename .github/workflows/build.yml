@@ -2,7 +2,7 @@ name: Build
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number }}-${{ github.event.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 on: [push, pull_request]
 
@@ -12,12 +12,19 @@ env:
   CIBW_BUILD: 'cp39-*'
   CIBW_BEFORE_ALL_LINUX: bash ./cibw_before_all_linux.sh
   CIBW_TEST_COMMAND: 'python {project}/cibw_test_command.py'
-  CIBW_ARCHS_MACOS: x86_64 # universal2 # build wheels that'll work on M1 Macs
+  CIBW_ARCHS_MACOS: universal2 # build wheels that'll work on M1 Macs
   CIBW_ARCHS_LINUX: auto64
-  CIBW_ENVIRONMENT_WINDOWS: PTB_LIMITED_WHEEL=1
-  CIBW_ENVIRONMENT_LINUX: PTB_LIMITED_WHEEL=1 PTB_SOUND_TEST=0 PTB_USB_TEST=0
-  CIBW_ENVIRONMENT_MACOS: CC=clang PTB_LIMITED_WHEEL=1 MACOSX_DEPLOYMENT_TARGET=11.0
+  CIBW_ARCHS_WINDOWS: auto64
+  CIBW_ENVIRONMENT_WINDOWS: PTB_LIMITED_WHEEL=1 CL="/DPSYCH_NOLM=1"
+  CIBW_ENVIRONMENT_LINUX: PTB_LIMITED_WHEEL=1 PTB_SOUND_TEST=0 PTB_USB_TEST=0 PSYCH_NOLM=1 CFLAGS="$CFLAGS -DPSYCH_NOLM=1" CXXFLAGS="$CXXFLAGS -DPSYCH_NOLM=1"
+  CIBW_ENVIRONMENT_MACOS: CC=clang PTB_LIMITED_WHEEL=1 MACOSX_DEPLOYMENT_TARGET=11.0 PSYCH_NOLM=1 CFLAGS="$CFLAGS -DPSYCH_NOLM=1" CXXFLAGS="$CXXFLAGS -DPSYCH_NOLM=1"
   CIBW_BUILD_VERBOSITY: 1
+  CIBW_REPAIR_WHEEL_COMMAND_LINUX: >
+      auditwheel repair -w {dest_dir} {wheel}
+      --exclude libudev.so.1
+      --exclude libasound.so.2
+      --exclude libjack.so.0
+      --exclude libcrypto.so.1.1
 
 jobs:
   build_wheels:
@@ -25,66 +32,59 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-13]
+        os: [ubuntu-latest, windows-latest, macos-14]
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
         name: Install Python
         with:
-          python-version: "3.9"
+          python-version: "3.11"
           architecture: "x64"
-      - name: Build libusb targeted at MacOS 11
-        if: runner.os == 'macOS'
-        run: |
-          brew update
-          brew install automake
-          git clone https://github.com/libusb/libusb.git
-          cd libusb
-          git checkout v1.0.27
-          bash ./autogen.sh && ./configure && make && make install
-          cd ..
-      - name: Set up audio device for testing
-        uses: LABSN/sound-ci-helpers@main
       - name: Set up project directory
         run: |
           git submodule update --init --recursive
           cp -av cibw_* psychtoolbox-3/
         shell: bash
+      - name: Build libusb targeted at MacOS 11
+        if: runner.os == 'macOS'
+        uses: ./.github/actions/build-libusb
+      - name: Set up audio device for testing
+        uses: LABSN/sound-ci-helpers@main
+      - name: Temporarily cap runtime numpy
+        run: git apply --directory=psychtoolbox-3  --ignore-whitespace patches/temp-numpy-cap.patch
       - name: Install cibuildwheel
-        run: python -m pip install cibuildwheel==2.19.2
+        run: python -m pip install cibuildwheel==3.4.1
       - name: Build wheel
         working-directory: psychtoolbox-3
-        run: python -m cibuildwheel --archs native --output-dir ../dist
-      - uses: actions/upload-artifact@v4
+        run: python -m cibuildwheel --output-dir ../dist
+      - uses: actions/upload-artifact@v7
         with:
           name: wheels-${{ matrix.os }}
           path: ./dist
 
   test_wheels:
-    name: Test ${{ matrix.os }} ${{ matrix.python }} ${{ matrix.numpy }}
+    name: Test wheels for ${{ matrix.os }} ${{ matrix.python }} ${{ matrix.numpy }}
     needs: build_wheels
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-13]
-        python: ['3.9', '3.12']
+        os: [ubuntu-latest, windows-latest, macos-14, macos-15-intel]
+        python: ['3.10', '3.12']
         include:
           - os: ubuntu-latest
-            python: '3.9'
-            numpy: '"numpy<2"'
+            python: '3.11'
       fail-fast: false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: LABSN/sound-ci-helpers@main
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "${{ matrix.python }}"
-          architecture: "x64"
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
-          name: wheels-${{ matrix.os }}
+          name: wheels-${{ matrix.os == 'macos-15-intel' && 'macos-14' || matrix.os }}
           path: ./dist
       - run: ls -alR ./dist
         shell: bash
@@ -103,20 +103,26 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-13]
+        os: [ubuntu-latest, windows-latest, macos-14]
+      fail-fast: false
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         name: Install Python
         with:
-          python-version: "3.9"
+          python-version: "3.11"
           architecture: "x64"
       - uses: LABSN/sound-ci-helpers@main
-      - name: Build source
+      - name: Set up project directory
         run: |
           git submodule update --init --recursive
+      - name: Build libusb targeted at MacOS 11
+        if: runner.os == 'macOS'
+        uses: ./.github/actions/build-libusb
+      - name: Build source
+        run: |
           python -m pip install build
           cd psychtoolbox-3
           python -m build --sdist --outdir=../dist
@@ -126,6 +132,15 @@ jobs:
       - name: Install Ubuntu deps
         if: contains(matrix.os, 'ubuntu')
         run: sudo apt-get install -y libusb-1.0-0-dev portaudio19-dev libasound2-dev libxi-dev
+      - name: Set CFLAGS/CXXFLAGS
+        if: runner.os == 'linux' || runner.os == 'macOS'
+        run: |
+          echo "CFLAGS=$CFLAGS -DPSYCH_NOLM=1" >> $GITHUB_ENV
+          echo "CXXFLAGS=$CXXFLAGS -DPSYCH_NOLM=1" >> $GITHUB_ENV
+      - name: Set CL
+        if: runner.os == 'windows'
+        run: |
+          echo "CL=$env:CL /DPSYCH_NOLM=1" >> $env:GITHUB_ENV
       - name: Install PTB
         run: python -m pip install -v dist/*.tar.gz
         shell: bash
@@ -133,7 +148,7 @@ jobs:
         if: runner.os == 'linux'
       - name: Test PTB
         run: python cibw_test_command.py
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: contains(matrix.os, 'ubuntu')
         with:
           name: wheels-sdist
@@ -143,16 +158,16 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build_source, test_wheels]
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           pattern: wheels-*
           path: ./dist
           merge-multiple: true
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         name: Install Python
         with:
-          python-version: "3.9"
+          python-version: "3.11"
           architecture: "x64"
 
       - name: Install twine
@@ -162,7 +177,7 @@ jobs:
         run: python -m twine check --strict dist/*
 
       - name: Upload to GitHub Releases
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         if: startsWith(github.event.ref, 'refs/tags')
         with:
           files: dist/*

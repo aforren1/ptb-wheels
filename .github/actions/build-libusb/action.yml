@@ -1,0 +1,22 @@
+name: Build universal libusb on MacOS
+description: Build universal libusb on MacOS for use in PTB wheels and copy into PTB source tree
+
+runs:
+  using: composite
+  steps:
+    - name: Run build script
+      shell: bash
+      run: |
+          brew update
+          brew install automake autoconf libtool
+          git clone https://github.com/libusb/libusb.git
+          cd libusb
+          git checkout v1.0.29
+          bash ./autogen.sh
+          ./configure \
+            CFLAGS="-arch x86_64 -arch arm64 -mmacosx-version-min=11.0" \
+            LDFLAGS="-arch x86_64 -arch arm64" \
+            --disable-dependency-tracking
+          make && sudo make install
+          cd ..
+          cp -L /usr/local/lib/libusb-1.0.dylib psychtoolbox-3/PsychSourceGL/Cohorts/libusb1-win32/libusb-1.0.dylib
