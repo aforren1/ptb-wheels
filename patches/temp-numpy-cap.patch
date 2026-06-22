@@ -1,0 +1,6 @@
+# patches/numpy-runtime-cap.patch
+--- a/setup.py
++++ b/setup.py
+@@
+-install_requires = ['numpy>=1.13.3'], # Oldest supported numpy on Python 3.6
++install_requires = ['numpy>=1.13.3,<2.4'], # oldest supported numpy, and temporarily un-break behavior with newer numpys
