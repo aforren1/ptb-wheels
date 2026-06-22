@@ -7,7 +7,7 @@ index 01a2d3c06..f4ffe149c 100644
         ext_modules = ext_modules,
         include_package_data=True,  # Include files listed in MANIFEST.in
 -       install_requires = ['numpy>=1.13.3'], # Oldest supported numpy on Python 3.6
-+       install_requires = ['numpy>=1.13.3,<2.4'], # Oldest supported numpy on Python 3.6
++       install_requires = ['numpy>=1.13.3,<2.4'], # Oldest supported numpy on Python 3.6, and temporarily cap to pre-2.4 for syntax compat
         cmdclass={"bdist_wheel": bdist},
        )
  
